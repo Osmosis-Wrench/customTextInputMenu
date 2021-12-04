@@ -3,7 +3,7 @@ import gfx.ui.InputDetails;
 import gfx.ui.NavigationCode;
 import gfx.controls.TextInput;
 import Shared.GlobalFunc;
-import flash.geom.Rectangle;
+import skyui.components.ButtonPanel;
 
 import skyui.defines.Input;
 
@@ -14,6 +14,7 @@ class customTextMenu extends MovieClip
 	public var closeHint:TextField;
 	public var fillColorProperty:Number;
 	public var fillAlphaProperty:Number;
+	public var buttonPanel:ButtonPanel;
 
 	public function customTextMenu()
 	{
@@ -22,8 +23,7 @@ class customTextMenu extends MovieClip
 		closeHint = TextInputBox_mc.closeHint;
 		fillColorProperty = 0x333333;
 		fillAlphaProperty = 40;
-		//drawRoundedRectangle(this, actualTextBox._height, actualTextBox._width, 10, 0x333333, 50);
-		//drawCustomRectangle(200,200,200,200,0x333333,50);
+		
 	}
 
 	public function onLoad()
@@ -34,6 +34,37 @@ class customTextMenu extends MovieClip
 		skse.AllowTextInput(true);
 		trace(actualTextBox.text);
 		setBoxParams(0,0,300,300);
+		updateButtons();
+	}
+	
+	private function updateButtons(): Void
+	{
+		var acceptControls: Object;
+		var cancelControls: Object;
+
+		buttonPanel.clearButtons();
+		var cancelButton = buttonPanel.addButton({text: "Cancel", controls: cancelControls});
+		var acceptButton = buttonPanel.addButton({text: "Accept", controls: acceptControls});
+		acceptButton.addEventListener("click", this, "onAcceptPress");
+		cancelButton.addEventListener("click", this, "onCancelPress");
+		buttonPanel.updateButtons();
+	}
+	
+	private function onAcceptPress(): Void
+	{
+		exitMenu(false);
+	}
+	
+	private function onCancelPress(): Void
+	{
+		exitMenu(true);
+	}
+	
+	private function exitMenu(canceled: Boolean): Void
+	{
+		skse.AllowTextInput(false);
+		skse.SendModEvent("UILIB_1_textInputClose", actualTextBox.text, canceled ? 1 : 0);
+		skse.CloseMenu("CustomMenu");
 	}
 
 	public function handleInput(details:InputDetails, pathToFocus:Array):Boolean
