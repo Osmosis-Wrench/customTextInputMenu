@@ -1,0 +1,6 @@
+
+*.bat
+src/dist/*
+src/skyrim/.vscode/launch.json
+src/skyrim/.vscode/tasks.json
+src/skyrim/SkyrimSE.code-workspace
