@@ -63,8 +63,15 @@ class customTextMenu extends MovieClip
 	private function exitMenu(canceled: Boolean): Void
 	{
 		skse.AllowTextInput(false);
-		skse.SendModEvent("UILIB_1_textInputClose", actualTextBox.text, canceled ? 1 : 0);
+		skse.SendModEvent("CustomTextInputBox_1_textInputClose", actualTextBox.text, canceled ? 1 : 0);
 		skse.CloseMenu("CustomMenu");
+	}
+
+	public function setupTextBox(initialText:String, boxX:Number, boxY:Number, boxWidth:Number, boxHeight:Number, fillColor:Number, fillOpacity:Number): Void
+	{
+		fillColorProperty = fillColor;
+		fillAlphaProperty = fillOpacity;
+		setBoxParams(boxX, boxY, boxWidth, boxHeight)
 	}
 
 	public function handleInput(details:InputDetails, pathToFocus:Array):Boolean
