@@ -1,19 +1,18 @@
 Scriptname customTextBoxMenu_Script extends Form
 {CustomTextBoxMenu Version 1}
 
-bool version = 1
 bool bMenuOpen
 string sInitialText
 string sInput
 
 int Function getVersion()
-    return version
+    return 1
 EndFunction
 
 Function OpenMenu(Form akClient) Global
-    akClient.RegisterForModEvent("CustomTextInputBox_1_textInputOpen", "OnTextInputOpen")
-    akClient.RegisterForModEvent("CustomTextInputBox_1_textInputClose", "OnTextInputClose")
-    UI.OpenCustomMenu("CustomTextInputBox/customTextInputMenu.swf")
+    ;akClient.RegisterForModEvent("CustomTextInputBox_1_textInputOpen", "OnTextInputOpen")
+    ;akClient.RegisterForModEvent("CustomTextInputBox_1_textInputClose", "OnTextInputClose")
+    UI.OpenCustomMenu("CustomTextInputBox/customTextInputMenu")
 EndFunction
 
 Function ReleaseMenu(Form akClient) Global

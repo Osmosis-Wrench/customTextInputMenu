@@ -22,6 +22,7 @@
         <Import>https://github.com/MrOctopus/nl_online/tree/main/skse64/source</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/sse/source</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/jcontainersse/source</Import>
+        <Import>https://github.com/Ryan-rsm-McKenzie/ConsoleUtilSSE/tree/master/src/papyrus</Import>
     </Imports>
     <Folders>
         <Folder>@MyProject\Scripts\Source</Folder>
