@@ -15,6 +15,7 @@ class customTextMenu extends MovieClip
 	public var fillColorProperty:Number;
 	public var fillAlphaProperty:Number;
 	public var buttonPanel_mc:ButtonPanel;
+	private var requestDataId_: Number;
 
 	public function customTextMenu()
 	{
@@ -24,27 +25,29 @@ class customTextMenu extends MovieClip
 		buttonPanel_mc = TextInputBox_mc.buttonPanel_mc;
 		fillColorProperty = 0x333333;
 		fillAlphaProperty = 40;
-
 	}
-
+	
 	public function onLoad()
 	{
 		super.onLoad();
-		_visible = true;
+		_visible = false;
 		//TextInputBox_mc.textFieldBox.noTranslate = true;
-		skse.AllowTextInput(true);
 		trace(actualTextBox.text);
 
 		Mouse.addListener(this);
 		Key.addListener(this);
 
-		gfx.managers.FocusHandler.instance.setFocus(actualTextBox.textField,0);
-		actualTextBox.focused = true;
-		Selection.setFocus(actualTextBox.textField);
-		Selection.setSelection(0,0);
-
-		setupTextBox("test",100,100,500);
+		//setupTextBox("test",100,100,500);
 		//updateButtons();
+		requestDataId_ = setInterval(this, "requestData", 1);
+	}
+	
+	private function requestData(): Void
+	{
+		clearInterval(requestDataId_);
+		
+		skse.AllowTextInput(true);
+		skse.SendModEvent("CustomTextInputBox_1_textInputOpen");
 	}
 
 	private function updateButtons():Void
@@ -69,7 +72,7 @@ class customTextMenu extends MovieClip
 	{
 		exitMenu(true);
 	}
-
+	
 	private function exitMenu(canceled:Boolean):Void
 	{
 		trace("exit menu "+canceled);
@@ -78,9 +81,17 @@ class customTextMenu extends MovieClip
 		skse.CloseMenu("CustomMenu");
 	}
 
-	public function setupTextBox(initialText:String, boxX:Number, boxY:Number, boxWidth:Number, boxHeight:Number, fillColor:Number, fillOpacity:Number):Void
+	public function setupTextBox(initialText:String, boxX:Number, boxY:Number, boxWidth:Number, boxHeight:Number, fontSize:Number, fillColor:Number, fillOpacity:Number):Void
 	{
-		actualTextBox.text = initialText;
+		_visible = true;
+		actualTextBox.text = "initialText";
+		actualTextBox.size = fontSize;
+		gfx.managers.FocusHandler.instance.setFocus(actualTextBox.textField, 0);
+		actualTextBox.focused = true;
+		Selection.setFocus(actualTextBox.textField);
+		Selection.setSelection(0,0);
+		
+		
 		fillColor == undefined ? fillColorProperty = 0x333333 : fillColorProperty = fillColor;
 		fillOpacity == undefined ? fillAlphaProperty = 40 : fillAlphaProperty = fillOpacity;
 		setBoxParams(boxX,boxY,boxWidth,boxHeight);
@@ -96,8 +107,8 @@ class customTextMenu extends MovieClip
 		{
 			if (details.navEquivalent == NavigationCode.ENTER)
 			{
-				exitMenu(false);
-				bHandledInput = true;
+				//exitMenu(false);
+				//bHandledInput = true;
 			}
 			else if (details.navEquivalent == NavigationCode.TAB)
 			{

@@ -7,10 +7,23 @@ event oninit()
 endevent
 
 event onkeydown(int keycode)
-    ConsoleUtil.PrintMessage("test")
-    UI.OpenCustomMenu("CustomTextInputBox/customTextInputMenu")
-    ;if keycode == 26
-    ;    customTextBoxMenu_Script.OpenMenu(self as form)
-    ;    customTextBoxMenu_Script.SetData("test", 100, 100, 500, 500)
-    ;endif
+    ConsoleUtil.PrintMessage("onkeydown")
+    if keycode == 26
+        customTextBoxMenu_Script.OpenMenu(self as form)
+    endif
+endevent
+
+event OnTextInputOpen(String asEventName, String asStringArg, Float afNumArg, Form akSender)
+    ConsoleUtil.PrintMessage("OnTextInputOpen")
+    if(asEventName == "CustomTextInputBox_1_textInputOpen")
+        customTextBoxMenu_Script.SetData("poop butt ass", 100, 100, 500, 500)
+    endif
+endevent
+
+event OnTextInputClose(String asEventName, String asStringArg, Float afNumArg, Form akSender)
+    ConsoleUtil.PrintMessage("OnTextInputClose")
+    If(asEventName == "CustomTextInputBox_1_textInputClose")
+        ConsoleUtil.PrintMessage(asStringArg)
+        customTextBoxMenu_Script.ReleaseMenu(self as form)
+    endif
 endevent
